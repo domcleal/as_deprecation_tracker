@@ -1,8 +1,17 @@
 # frozen_string_literal: true
 require 'test_helper'
 
-class ASDeprecationTrackerTest < Minitest::Test
-  def test_config_returns_configuration
+class ASDeprecationTrackerTest < ASDeprecationTracker::TestCase
+  def test_active?
+    assert ASDeprecationTracker.active?
+  end
+
+  def test_active_in_other_env
+    ASDeprecationTracker.config.envs = ['development']
+    refute ASDeprecationTracker.active?
+  end
+
+  def test_config
     assert_kind_of ASDeprecationTracker::Configuration, ASDeprecationTracker.config
   end
 

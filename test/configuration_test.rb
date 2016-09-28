@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 require 'test_helper'
 
-class ConfigurationTest < Minitest::Test
+class ConfigurationTest < ASDeprecationTracker::TestCase
   def setup
     @config = ASDeprecationTracker::Configuration.new
+    super
   end
 
   def test_envs

@@ -7,7 +7,8 @@ gem 'activesupport', rails_version
 gem 'railties', rails_version
 
 group :test do
-  gem 'minitest', require: false
+  gem 'combustion', '~> 0.5', require: false
+  gem 'minitest', '~> 5.0', require: false
   gem 'rake'
   gem 'rubocop', '~> 0.43.0', require: false
 end
