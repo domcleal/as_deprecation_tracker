@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+# Entry point, provides constant with access to global configuration only
 module ASDeprecationTracker
   require 'as_deprecation_tracker/configuration'
   require 'as_deprecation_tracker/version'

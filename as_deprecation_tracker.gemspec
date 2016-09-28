@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require File.expand_path('../lib/as_deprecation_tracker/version', __FILE__)
 
 Gem::Specification.new do |s|
@@ -13,7 +14,7 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
   s.require_paths = ['lib']
 
-  s.files = `git ls-files`.split("\n") - Dir[".*", "Gem*", "*.gemspec"]
+  s.files = `git ls-files`.split("\n") - Dir['.*', 'Gem*', '*.gemspec']
 
   s.add_dependency 'activesupport', '>= 4.2'
   s.add_dependency 'railties', '>= 4.2'
