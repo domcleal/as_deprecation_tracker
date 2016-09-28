@@ -37,6 +37,23 @@ moved and the backtrace changes.
 1. By target version number(?)
 1. By calltrace
 
+### Configuration
+
+Use an initializer to change ASPT's behaviour at startup:
+
+```ruby
+ASDeprecationTracker.config.envs = %w(test development)
+```
+
+Supported options:
+
+* `envs` is an array of string Rails environment names that ASPT will monitor
+  and raise errors for unpermitted deprecation warnings (defaults to
+  `['test']`)
+* `register_behavior` controls whether to change the AS::Deprecation behavior
+  to ASDeprecationTracker::Receiver at startup, may be disabled to use multiple
+  behaviors (defaults to true)
+
 ## License
 
 Copyright (c) 2016 Dominic Cleal.  Distributed under the MIT license.

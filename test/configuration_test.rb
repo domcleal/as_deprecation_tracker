@@ -15,4 +15,13 @@ class ConfigurationTest < ASDeprecationTracker::TestCase
     @config.envs = ['development']
     assert_equal ['development'], @config.envs
   end
+
+  def test_register_behavior?
+    assert_equal true, @config.register_behavior?
+  end
+
+  def test_register_behavior=
+    @config.register_behavior = false
+    assert_equal false, @config.register_behavior?
+  end
 end
