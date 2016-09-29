@@ -5,13 +5,24 @@ when an unknown warning is seen.
 
 This allows for easier upgrades of Rails and other AS-based apps because as
 each deprecation warning is fixed, it's removed from the whitelist and any
-attempt to reintroduce the deprecated call will fail.
+attempt to reintroduce the deprecated call will fail. It's also useful when the
+app runs on multiple versions of Rails and newer deprecation warnings can't be
+fixed yet without breaking the older version.
 
 The library maintains the whitelist in a configuration file that's usually
 initially written by running the app test suite with an environment variable
 set. When the tests are run normally, deprecation warnings triggered that
 aren't in the config file will raise an exception. The call can then be fixed
 or added to the whitelist with the provided instructions.
+
+If you'd prefer just to fix all deprecation warnings at once then this gem is
+unnecessary! Just use:
+
+```ruby
+ActiveSupport::Deprecation.behavior = :raise
+```
+
+in your test environment config.
 
 ## Installation
 
