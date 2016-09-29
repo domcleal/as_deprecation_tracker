@@ -8,7 +8,7 @@ module ASDeprecationTracker
       Receiver.attach_to :rails
       ActiveSupport::Deprecation.behavior = :notify if ASDeprecationTracker.config.register_behavior?
 
-      whitelist = File.join(Rails.root, 'config', 'as_deprecation_whitelist.yaml')
+      whitelist = ASDeprecationTracker.config.whitelist_file
       ASDeprecationTracker.whitelist.load_file(whitelist) if File.exist?(whitelist)
     end
   end

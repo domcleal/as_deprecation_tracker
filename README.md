@@ -39,7 +39,17 @@ errors in production and development isn't desirable.
 
 ## Usage
 
-### Whitelisting
+### Automatic whitelisting
+
+To set up an initial whitelist, run:
+
+    AS_DEPRECATION_RECORD=yes bin/rake test
+
+This will generate `config/as_deprecation_whitelist.yaml` with a list of
+specific instances of deprecated calls which can be committed. Subsequent `rake
+test` runs will then automatically raise errors for new occurrences.
+
+### Whitelist configuration
 
 The whitelist may be broad, permitting any call causing a particular
 deprecation message or be precise, only permitting known calls identified by
@@ -87,6 +97,8 @@ Supported options:
 * `register_behavior` controls whether to change the AS::Deprecation behavior
   to ASDeprecationTracker::Receiver at startup, may be disabled to use multiple
   behaviors (defaults to true)
+* `whitelist_file` to customise the location of the whitelist YAML file
+  (defaults to `config/as_deprecation_whitelist.yaml` beneath the Rails root)
 
 ## License
 

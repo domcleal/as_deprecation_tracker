@@ -33,4 +33,14 @@ class ConfigurationTest < ASDeprecationTracker::TestCase
     @config.register_behavior = false
     assert_equal false, @config.register_behavior?
   end
+
+  def test_whitelist_file
+    assert_kind_of String, @config.whitelist_file
+    assert File.exist?(@config.whitelist_file)
+  end
+
+  def test_whitelist_file=
+    @config.whitelist_file = 'another_file.yaml'
+    assert_equal 'another_file.yaml', @config.whitelist_file
+  end
 end
