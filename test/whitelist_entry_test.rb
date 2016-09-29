@@ -14,6 +14,10 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
     assert entry.matches?(deprecation)
   end
 
+  def test_matches_message_with_surrounding_content
+    assert entry.matches?(deprecation(message: 'DEPRECATION WARNING: uniq is deprecated and will be removed (called from block in <class:Foo> at app/models/foo.rb:23)'))
+  end
+
   def test_matches_message_only
     assert entry(callstack: nil).matches?(deprecation(callstack: caller))
   end
@@ -38,7 +42,7 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
 
   def deprecation(overrides = {})
     {
-      message: 'uniq is deprecated and will be removed from Rails 5.1 (use distinct instead)',
+      message: 'uniq is deprecated and will be removed',
       callstack: [
         '/home/user/app/models/foo.rb:23'
       ]
