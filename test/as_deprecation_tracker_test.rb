@@ -7,6 +7,7 @@ class ASDeprecationTrackerTest < ASDeprecationTracker::TestCase
   end
 
   def test_active_in_other_env
+    ASDeprecationTracker.expects(:config).twice.returns(ASDeprecationTracker::Configuration.new)
     ASDeprecationTracker.config.envs = ['development']
     refute ASDeprecationTracker.active?
   end

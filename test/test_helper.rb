@@ -9,13 +9,5 @@ Combustion.path = 'test/internal'
 Combustion.initialize!
 
 module ASDeprecationTracker
-  def self.reset_config
-    @config = nil
-  end
-
-  class TestCase < ::Minitest::Test
-    def teardown
-      ASDeprecationTracker.reset_config
-    end
-  end
+  class TestCase < ::Minitest::Test; end
 end
