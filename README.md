@@ -36,9 +36,21 @@ their backtrace. With broad whitelists, more instances of the same deprecated
 call may be added, but precise whitelists require more maintenance if code is
 moved and the backtrace changes.
 
-1. By message
-1. By target version number(?)
-1. By calltrace
+The whitelist is stored in the Rails root at
+`config/as_deprecation_whitelist.yaml` and is a YAML file containing a single
+array of hashes:
+
+```yaml
+---
+- :message: Deprecated call to X, use Y instead
+- :message: Deprecated call to Z
+  :callstack:
+    - app/models/foo.rb:23
+```
+
+Accepted keys are `:message`, matching the exact deprecation message and
+`:callstack`, an array forming the backtrace of the deprecation, which must
+match exactly.
 
 ### Configuration
 
