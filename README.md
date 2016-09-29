@@ -54,7 +54,7 @@ match exactly.
 
 ### Configuration
 
-Use an initializer to change ASPT's behaviour at startup:
+Use an initializer to change ASDT's behaviour at startup:
 
 ```ruby
 ASDeprecationTracker.config.envs = %w(test development)
@@ -62,7 +62,7 @@ ASDeprecationTracker.config.envs = %w(test development)
 
 Supported options:
 
-* `envs` is an array of string Rails environment names that ASPT will monitor
+* `envs` is an array of string Rails environment names that ASDT will monitor
   and raise errors for unpermitted deprecation warnings (defaults to
   `['test']`)
 * `register_behavior` controls whether to change the AS::Deprecation behavior
