@@ -19,9 +19,12 @@ or added to the whitelist with the provided instructions.
 
 or in your Gemfile:
 
-    gem 'as_deprecation_tracker', '~> 1.0'
+    gem 'as_deprecation_tracker', '~> 1.0', group: 'test'
 
 This gem and its API is versioned according to semver.
+
+It's recommended to only add the gem to the test Bundler group as raising
+errors in production and development isn't desirable.
 
 ## Usage
 
