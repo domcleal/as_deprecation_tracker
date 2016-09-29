@@ -19,4 +19,13 @@ class ASDeprecationTrackerTest < ASDeprecationTracker::TestCase
     config = ASDeprecationTracker.config
     assert_equal config, ASDeprecationTracker.config
   end
+
+  def test_whitelist
+    assert_kind_of ASDeprecationTracker::Whitelist, ASDeprecationTracker.whitelist
+  end
+
+  def test_whitelist_returns_same_whitelist
+    whitelist = ASDeprecationTracker.whitelist
+    assert_equal whitelist, ASDeprecationTracker.whitelist
+  end
 end
