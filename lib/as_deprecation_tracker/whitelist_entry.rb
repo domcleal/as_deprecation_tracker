@@ -4,6 +4,7 @@ module ASDeprecationTracker
   # such as a message and/or callstack
   class WhitelistEntry
     def initialize(entry)
+      entry = entry.with_indifferent_access
       raise('Missing `message` or `callstack` from whitelist entry') unless entry.key?(:message) || entry.key?(:callstack)
       @message = entry[:message]
       @callstack = entry[:callstack]

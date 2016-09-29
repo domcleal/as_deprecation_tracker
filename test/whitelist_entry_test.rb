@@ -2,6 +2,14 @@
 require 'test_helper'
 
 class WhitelistEntryTest < ASDeprecationTracker::TestCase
+  def test_initialize_with_strings
+    ASDeprecationTracker::WhitelistEntry.new('message' => 'test')
+  end
+
+  def test_initialize_with_symbols
+    ASDeprecationTracker::WhitelistEntry.new(message: 'test')
+  end
+
   def test_matches_message_and_callstack
     assert entry.matches?(deprecation)
   end

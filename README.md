@@ -42,14 +42,14 @@ array of hashes:
 
 ```yaml
 ---
-- :message: Deprecated call to X, use Y instead
-- :message: Deprecated call to Z
-  :callstack:
+- message: Deprecated call to X, use Y instead
+- message: Deprecated call to Z
+  callstack:
     - app/models/foo.rb:23
 ```
 
-Accepted keys are `:message`, matching the exact deprecation message and
-`:callstack`, an array forming the backtrace of the deprecation, which must
+Accepted keys are `message`, matching the exact deprecation message and
+`callstack`, an array forming the backtrace of the deprecation, which must
 match exactly.
 
 ### Configuration
