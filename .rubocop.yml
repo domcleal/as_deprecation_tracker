@@ -1,2 +1,6 @@
 Metrics/LineLength:
   Enabled: false
+
+Metrics/AbcSize:
+  Exclude:
+    - 'test/**/*'
