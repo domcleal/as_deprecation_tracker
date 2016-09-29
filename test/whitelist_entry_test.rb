@@ -26,6 +26,37 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
     assert entry(message: nil).matches?(deprecation)
   end
 
+  def test_matches_partial_callstack_top
+    assert entry(callstack: ['/home/user/app/models/foo.rb:23']).matches?(deprecation)
+  end
+
+  def test_matches_partial_callstack_bottom
+    assert entry(callstack: ['/home/user/app/controllers/foos_controller.rb:42']).matches?(deprecation)
+  end
+
+  def test_matches_partial_callstack_multiple
+    assert entry(callstack: [
+                   '/home/user/app/models/foo.rb:23',
+                   '/home/user/app/controllers/foos_controller.rb:42'
+                 ]).matches?(deprecation)
+  end
+
+  def test_matches_partial_callstack_within_tolerance
+    assert entry(callstack: ['/home/user/app/models/foo.rb:25']).matches?(deprecation)
+  end
+
+  def test_matches_partial_callstack_outside_tolerance
+    refute entry(callstack: ['/home/user/app/models/foo.rb:34']).matches?(deprecation)
+  end
+
+  def test_matches_partial_callstack_string
+    assert entry(callstack: '/home/user/app/models/foo.rb:23').matches?(deprecation)
+  end
+
+  def test_matches_partial_callstack_file
+    assert entry(callstack: ['/home/user/app/models/foo.rb']).matches?(deprecation)
+  end
+
   def test_matches_different_message_same_callstack
     refute entry.matches?(deprecation(message: 'a different method is deprecated'))
   end
@@ -44,7 +75,9 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
     {
       message: 'uniq is deprecated and will be removed',
       callstack: [
-        '/home/user/app/models/foo.rb:23'
+        '/home/user/app/models/foo.rb:23',
+        '/home/user/app/controllers/foos_controller.rb:42',
+        '/home/user/test/controllers/foos_controller_test.rb:18'
       ]
     }.merge(overrides).compact
   end

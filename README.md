@@ -65,6 +65,8 @@ Supported options:
 * `envs` is an array of string Rails environment names that ASDT will monitor
   and raise errors for unpermitted deprecation warnings (defaults to
   `['test']`)
+* `line_tolerance` is the number of lines that callstack line numbers may
+  differ from the deprecated call (defaults to 10)
 * `register_behavior` controls whether to change the AS::Deprecation behavior
   to ASDeprecationTracker::Receiver at startup, may be disabled to use multiple
   behaviors (defaults to true)

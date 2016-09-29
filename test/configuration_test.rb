@@ -16,6 +16,15 @@ class ConfigurationTest < ASDeprecationTracker::TestCase
     assert_equal ['development'], @config.envs
   end
 
+  def test_line_tolerance
+    assert_equal 10, @config.line_tolerance
+  end
+
+  def test_line_tolerance=
+    @config.line_tolerance = 42
+    assert_equal 42, @config.line_tolerance
+  end
+
   def test_register_behavior?
     assert_equal true, @config.register_behavior?
   end
