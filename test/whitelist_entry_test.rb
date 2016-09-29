@@ -49,6 +49,26 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
     refute entry(callstack: ['/home/user/app/models/foo.rb:34']).matches?(deprecation)
   end
 
+  def test_matches_partial_callstack_same_method
+    assert entry(callstack: ['/home/user/app/models/foo.rb:in `example_method\'']).matches?(deprecation)
+  end
+
+  def test_matches_partial_callstack_different_method
+    refute entry(callstack: ['/home/user/app/models/foo.rb:23:in `another_method\'']).matches?(deprecation)
+  end
+
+  def test_matches_partial_callstack_different_method_no_line
+    refute entry(callstack: ['/home/user/app/models/foo.rb:in `another_method\'']).matches?(deprecation)
+  end
+
+  def test_matches_partial_callstack_within_tolerance_same_method
+    assert entry(callstack: ['/home/user/app/models/foo.rb:25:in `example_method\'']).matches?(deprecation)
+  end
+
+  def test_matches_partial_callstack_outside_tolerance_same_method
+    refute entry(callstack: ['/home/user/app/models/foo.rb:34:in `example_method\'']).matches?(deprecation)
+  end
+
   def test_matches_partial_callstack_string
     assert entry(callstack: '/home/user/app/models/foo.rb:23').matches?(deprecation)
   end
@@ -75,9 +95,9 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
     {
       message: 'uniq is deprecated and will be removed',
       callstack: [
-        '/home/user/app/models/foo.rb:23',
-        '/home/user/app/controllers/foos_controller.rb:42',
-        '/home/user/test/controllers/foos_controller_test.rb:18'
+        '/home/user/app/models/foo.rb:23:in `example_method\'',
+        '/home/user/app/controllers/foos_controller.rb:42:in `update\'',
+        '/home/user/test/controllers/foos_controller_test.rb:18:in `block in <class:FoosControllerTest>\''
       ]
     }.merge(overrides).compact
   end

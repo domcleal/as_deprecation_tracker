@@ -42,15 +42,21 @@ array of hashes:
 
 ```yaml
 ---
-- message: Deprecated call to X, use Y instead
-- message: Deprecated call to Z
-  callstack:
-    - app/models/foo.rb:23
+- message: "Deprecated call to X, use Y instead"
+- message: "Deprecated call to Z"
+  callstack: "app/models/foo.rb:23:in `example_method'"
 ```
 
 Accepted keys are `message`, matching the exact deprecation message and
-`callstack`, an array forming the backtrace of the deprecation, which must
-match exactly.
+`callstack`, a string or an array forming the backtrace of the deprecation.
+If an array is given for the callstack, all entries must match the caller.
+
+The callstack will match on as much data as is provided - if only a file is
+given, any matching deprecation within the file will be whitelisted. The line
+number and method specification may be given for more specificity. The line
+number may vary by up to ten lines from the recorded number by default (see
+`line_tolerance` to tune). Usually the filename and method name are sufficient
+to match the caller without needing line numbers.
 
 ### Configuration
 
