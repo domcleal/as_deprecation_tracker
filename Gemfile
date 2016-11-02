@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
 
-rails_version = ENV['RAILS_VERSION'] || '>= 4.2'
+rails_version = ENV.key?('RAILS_VERSION') ? "~> #{ENV['RAILS_VERSION']}" : '>= 4.2'
 
 gem 'activesupport', rails_version
 gem 'railties', rails_version
