@@ -49,6 +49,9 @@ This will generate `config/as_deprecation_whitelist.yaml` with a list of
 specific instances of deprecated calls which can be committed. Subsequent `rake
 test` runs will then automatically raise errors for new occurrences.
 
+Re-run tests with `AS_DEPRECATION_RECORD=yes` to append new instances to the
+existing configuration file, if you wish to whitelist rather than fix them.
+
 ### Whitelist configuration
 
 The whitelist may be broad, permitting any call causing a particular
