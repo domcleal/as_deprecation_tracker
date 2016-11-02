@@ -40,6 +40,31 @@ class ReceiverTest < ASDeprecationTracker::TestCase
     ActiveSupport::Notifications.instrument('deprecation.rails', message: 'test')
   end
 
+  def test_whitelist_file_root
+    assert_equal File.join(Rails.root, 'config', 'as_deprecation_whitelist.yaml'), ASDeprecationTracker::Receiver.new.send(:whitelist_file)
+  end
+
+  def test_whitelist_file_env_directory
+    ENV['AS_DEPRECATION_WHITELIST'] = '/'
+    assert_equal File.join('/', 'config', 'as_deprecation_whitelist.yaml'), ASDeprecationTracker::Receiver.new.send(:whitelist_file)
+  ensure
+    ENV.delete('AS_DEPRECATION_WHITELIST')
+  end
+
+  def test_whitelist_file_env_file
+    ENV['AS_DEPRECATION_WHITELIST'] = '/as_deprecation_whitelist.yaml'
+    assert_equal '/as_deprecation_whitelist.yaml', ASDeprecationTracker::Receiver.new.send(:whitelist_file)
+  ensure
+    ENV.delete('AS_DEPRECATION_WHITELIST')
+  end
+
+  def test_whitelist_file_env_expand
+    ENV['AS_DEPRECATION_WHITELIST'] = File.join(Rails.root, '..', 'as_deprecation_whitelist.yaml')
+    assert_equal File.expand_path('../as_deprecation_whitelist.yaml', Rails.root), ASDeprecationTracker::Receiver.new.send(:whitelist_file)
+  ensure
+    ENV.delete('AS_DEPRECATION_WHITELIST')
+  end
+
   private
 
   def event(payload)

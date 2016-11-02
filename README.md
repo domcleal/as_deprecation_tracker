@@ -50,7 +50,10 @@ specific instances of deprecated calls which can be committed. Subsequent `rake
 test` runs will then automatically raise errors for new occurrences.
 
 Re-run tests with `AS_DEPRECATION_RECORD=yes` to append new instances to the
-existing configuration file, if you wish to whitelist rather than fix them.
+existing whitelist file, if you wish to permit rather than fix them.
+
+Use `AS_DEPRECATION_WHITELIST=~/rails_engine` to set a different root directory
+or whitelist file to update, e.g. for a Rails engine.
 
 ### Whitelist configuration
 
