@@ -36,7 +36,7 @@ class ConfigurationTest < ASDeprecationTracker::TestCase
 
   def test_whitelist_file
     assert_kind_of String, @config.whitelist_file
-    assert File.exist?(@config.whitelist_file)
+    assert File.exist?(File.join(Rails.root, @config.whitelist_file))
   end
 
   def test_whitelist_file=

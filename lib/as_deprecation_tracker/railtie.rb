@@ -9,7 +9,16 @@ module ASDeprecationTracker
       ActiveSupport::Deprecation.behavior = :notify if ASDeprecationTracker.config.register_behavior?
 
       whitelist = ASDeprecationTracker.config.whitelist_file
-      ASDeprecationTracker.whitelist.load_file(whitelist) if File.exist?(whitelist)
+      ([Rails.root] + engine_roots).each do |root|
+        engine_whitelist = File.join(root, whitelist)
+        ASDeprecationTracker.whitelist.load_file(engine_whitelist) if File.exist?(engine_whitelist)
+      end
+    end
+
+    private
+
+    def engine_roots
+      ::Rails::Engine.descendants.map { |engine| engine.root rescue nil }.compact.uniq # rubocop:disable Style/RescueModifier
     end
   end
 end

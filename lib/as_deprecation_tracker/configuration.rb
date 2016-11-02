@@ -9,7 +9,7 @@ module ASDeprecationTracker
       @envs = %w(test)
       @line_tolerance = 10
       @register_behavior = true
-      @whitelist_file = File.join(Rails.root, 'config', 'as_deprecation_whitelist.yaml')
+      @whitelist_file = File.join('config', 'as_deprecation_whitelist.yaml')
     end
   end
 end

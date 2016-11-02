@@ -82,6 +82,9 @@ number may vary by up to ten lines from the recorded number by default (see
 `line_tolerance` to tune). Usually the filename and method name are sufficient
 to match the caller without needing line numbers.
 
+Additional whitelist files may be placed below the root of each Rails engine
+and will be loaded at startup in addition to the main Rails root config file.
+
 ### Configuration
 
 Use an initializer to change ASDT's behaviour at startup:
@@ -101,7 +104,7 @@ Supported options:
   to ASDeprecationTracker::Receiver at startup, may be disabled to use multiple
   behaviors (defaults to true)
 * `whitelist_file` to customise the location of the whitelist YAML file
-  (defaults to `config/as_deprecation_whitelist.yaml` beneath the Rails root)
+  (defaults to `config/as_deprecation_whitelist.yaml`)
 
 ## License
 
