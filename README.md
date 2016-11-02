@@ -30,7 +30,7 @@ in your test environment config.
 
 or in your Gemfile:
 
-    gem 'as_deprecation_tracker', '~> 0.0', github: 'domcleal/as_deprecation_tracker', group: 'test'
+    gem 'as_deprecation_tracker', '~> 1.0', group: 'test'
 
 This gem and its API is versioned according to semver.
 
