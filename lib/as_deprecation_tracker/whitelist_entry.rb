@@ -3,12 +3,13 @@ module ASDeprecationTracker
   # Configuration of a whitelisted (known) deprecation warning matched by data
   # such as a message and/or callstack
   class WhitelistEntry
+    KNOWN_KEYS = %w(callstack message).freeze
     MESSAGE_CLEANUP_RE = Regexp.new('\ADEPRECATION WARNING: (.+) \(called from.*')
     CALLSTACK_FILE_RE = Regexp.new('\A(.*?)(?::(\d+))?(?::in `(.+)\')?\z')
 
     def initialize(entry)
       entry = entry.with_indifferent_access
-      raise('Missing `message` or `callstack` from whitelist entry') unless entry.key?(:message) || entry.key?(:callstack)
+      validate_keys! entry
       @message = entry[:message]
       @callstack = callstack_to_files_lines(Array.wrap(entry[:callstack]))
     end
@@ -58,6 +59,12 @@ module ASDeprecationTracker
     def method_name_matches(method1, method2)
       return true if method1.nil? || method2.nil?
       method1 == method2
+    end
+
+    def validate_keys!(entry)
+      raise("Missing #{KNOWN_KEYS.join(', ')} from whitelist entry") unless KNOWN_KEYS.any? { |key| entry.key?(key) }
+      unknown_keys = entry.keys - KNOWN_KEYS
+      raise("Unknown configuration key(s) #{unknown_keys.join(', ')}") unless unknown_keys.empty?
     end
   end
 end
