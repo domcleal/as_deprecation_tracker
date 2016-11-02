@@ -9,7 +9,7 @@ gem 'railties', rails_version
 group :test do
   gem 'combustion', '~> 0.5', require: false
   gem 'minitest', '~> 5.0', require: false
-  gem 'mocha', '~> 1.1', require:  false
+  gem 'mocha', '~> 1.1', require: false
   gem 'rake'
-  gem 'rubocop', '~> 0.43.0', require: false
+  gem 'rubocop', '~> 0.45.0', require: false
 end
