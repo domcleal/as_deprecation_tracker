@@ -35,54 +35,54 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
   end
 
   def test_matches_partial_callstack_top
-    assert entry(callstack: ['/home/user/app/models/foo.rb:23']).matches?(deprecation)
+    assert entry(callstack: ['app/models/foo.rb:23']).matches?(deprecation)
   end
 
   def test_matches_partial_callstack_bottom
-    assert entry(callstack: ['/home/user/app/controllers/foos_controller.rb:42']).matches?(deprecation)
+    assert entry(callstack: ['app/controllers/foos_controller.rb:42']).matches?(deprecation)
   end
 
   def test_matches_partial_callstack_multiple
     assert entry(callstack: [
-                   '/home/user/app/models/foo.rb:23',
-                   '/home/user/app/controllers/foos_controller.rb:42'
+                   'app/models/foo.rb:23',
+                   'app/controllers/foos_controller.rb:42'
                  ]).matches?(deprecation)
   end
 
   def test_matches_partial_callstack_within_tolerance
-    assert entry(callstack: ['/home/user/app/models/foo.rb:25']).matches?(deprecation)
+    assert entry(callstack: ['app/models/foo.rb:25']).matches?(deprecation)
   end
 
   def test_matches_partial_callstack_outside_tolerance
-    refute entry(callstack: ['/home/user/app/models/foo.rb:34']).matches?(deprecation)
+    refute entry(callstack: ['app/models/foo.rb:34']).matches?(deprecation)
   end
 
   def test_matches_partial_callstack_same_method
-    assert entry(callstack: ['/home/user/app/models/foo.rb:in `example_method\'']).matches?(deprecation)
+    assert entry(callstack: ['app/models/foo.rb:in `example_method\'']).matches?(deprecation)
   end
 
   def test_matches_partial_callstack_different_method
-    refute entry(callstack: ['/home/user/app/models/foo.rb:23:in `another_method\'']).matches?(deprecation)
+    refute entry(callstack: ['app/models/foo.rb:23:in `another_method\'']).matches?(deprecation)
   end
 
   def test_matches_partial_callstack_different_method_no_line
-    refute entry(callstack: ['/home/user/app/models/foo.rb:in `another_method\'']).matches?(deprecation)
+    refute entry(callstack: ['app/models/foo.rb:in `another_method\'']).matches?(deprecation)
   end
 
   def test_matches_partial_callstack_within_tolerance_same_method
-    assert entry(callstack: ['/home/user/app/models/foo.rb:25:in `example_method\'']).matches?(deprecation)
+    assert entry(callstack: ['app/models/foo.rb:25:in `example_method\'']).matches?(deprecation)
   end
 
   def test_matches_partial_callstack_outside_tolerance_same_method
-    refute entry(callstack: ['/home/user/app/models/foo.rb:34:in `example_method\'']).matches?(deprecation)
+    refute entry(callstack: ['app/models/foo.rb:34:in `example_method\'']).matches?(deprecation)
   end
 
   def test_matches_partial_callstack_string
-    assert entry(callstack: '/home/user/app/models/foo.rb:23').matches?(deprecation)
+    assert entry(callstack: 'app/models/foo.rb:23').matches?(deprecation)
   end
 
   def test_matches_partial_callstack_file
-    assert entry(callstack: ['/home/user/app/models/foo.rb']).matches?(deprecation)
+    assert entry(callstack: ['app/models/foo.rb']).matches?(deprecation)
   end
 
   def test_matches_different_message_same_callstack
@@ -99,18 +99,24 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
 
   private
 
-  def deprecation(overrides = {})
+  def default_deprecation
     {
       message: 'uniq is deprecated and will be removed',
       callstack: [
-        '/home/user/app/models/foo.rb:23:in `example_method\'',
-        '/home/user/app/controllers/foos_controller.rb:42:in `update\'',
-        '/home/user/test/controllers/foos_controller_test.rb:18:in `block in <class:FoosControllerTest>\''
+        "#{Rails.root}/app/models/foo.rb:23:in `example_method'",
+        "#{Rails.root}/app/controllers/foos_controller.rb:42:in `update'",
+        "#{Rails.root}/test/controllers/foos_controller_test.rb:18:in `block in <class:FoosControllerTest>'"
       ]
-    }.merge(overrides).compact
+    }
+  end
+
+  def deprecation(overrides = {})
+    default_deprecation.merge(overrides).compact
   end
 
   def entry(overrides = {})
-    ASDeprecationTracker::WhitelistEntry.new(deprecation(overrides))
+    entry_hash = default_deprecation.merge(overrides).compact
+    entry_hash[:callstack].map! { |line| line.sub(Rails.root.to_s + '/', '') } if entry_hash[:callstack].is_a?(Array)
+    ASDeprecationTracker::WhitelistEntry.new(entry_hash)
   end
 end

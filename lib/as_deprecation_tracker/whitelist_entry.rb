@@ -36,6 +36,7 @@ module ASDeprecationTracker
     end
 
     def callstack_matches?(callstack)
+      callstack = Rails::BacktraceCleaner.new.clean(callstack, :silent)
       callstack = callstack_to_files_lines(callstack)
 
       @callstack.all? do |whitelist_entry|
