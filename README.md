@@ -74,9 +74,12 @@ array of hashes:
   callstack: "app/models/foo.rb:23:in `example_method'"
 ```
 
-Accepted keys are `message`, matching the exact deprecation message and
-`callstack`, a string or an array forming the backtrace of the deprecation.
-If an array is given for the callstack, all entries must match the caller.
+Accepted keys are:
+
+* `message`, matching the exact deprecation message
+* `callstack`, a string or an array forming the backtrace of the deprecation.
+  If an array is given for the callstack, all entries must match the caller.
+* `engine`, a Rails `engine_name` string, matching any call within the engine
 
 The callstack will match on as much data as is provided - if only a file is
 given, any matching deprecation within the file will be whitelisted. The line

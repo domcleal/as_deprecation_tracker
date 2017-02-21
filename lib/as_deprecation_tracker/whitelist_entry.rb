@@ -3,22 +3,27 @@ module ASDeprecationTracker
   # Configuration of a whitelisted (known) deprecation warning matched by data
   # such as a message and/or callstack
   class WhitelistEntry
-    KNOWN_KEYS = %w(callstack message).freeze
+    KNOWN_KEYS = %w(callstack engine message).freeze
     MESSAGE_CLEANUP_RE = Regexp.new('\ADEPRECATION WARNING: (.+) \(called from.*')
     CALLSTACK_FILE_RE = Regexp.new('\A(.*?)(?::(\d+))?(?::in `(.+)\')?\z')
 
     def initialize(entry)
       entry = entry.with_indifferent_access
       validate_keys! entry
-      @message = entry[:message]
+
       @callstack = callstack_to_files_lines(Array.wrap(entry[:callstack]))
+      @engine_root = entry[:engine].present? ? engine_root(entry[:engine]) : nil
+      @message = entry[:message]
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity
     def matches?(deprecation)
       return false if @message.present? && !message_matches?(deprecation[:message])
       return false if @callstack.present? && !callstack_matches?(deprecation[:callstack])
+      return false if @engine_root.present? && !engine_root_matches?(deprecation[:callstack])
       true
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     private
 
@@ -62,10 +67,25 @@ module ASDeprecationTracker
       method1 == method2
     end
 
+    def engine_root_matches?(callstack)
+      callstack.any? { |callstack_entry| callstack_entry.start_with?(@engine_root) }
+    end
+
     def validate_keys!(entry)
       raise("Missing #{KNOWN_KEYS.join(', ')} from whitelist entry") unless KNOWN_KEYS.any? { |key| entry.key?(key) }
       unknown_keys = entry.keys - KNOWN_KEYS
       raise("Unknown configuration key(s) #{unknown_keys.join(', ')}") unless unknown_keys.empty?
+    end
+
+    def engine_root(engine_name)
+      ::Rails::Engine.descendants.each do |engine|
+        begin
+          return engine.root.to_s if engine_name == engine.engine_name
+        rescue NoMethodError, RuntimeError # rubocop:disable Lint/HandleExceptions
+          # Ignore failures with singleton engine subclasses etc.
+        end
+      end
+      raise("Unknown configured engine name #{engine_name}")
     end
   end
 end

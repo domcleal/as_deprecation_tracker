@@ -97,6 +97,18 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
     refute entry.matches?(deprecation(message: 'a different method is deprecated', callstack: caller))
   end
 
+  def test_matches_only_engine
+    assert entry(engine: 'example').matches?(deprecation(called_in_engine: 'example'))
+  end
+
+  def test_matches_different_engine
+    refute entry(engine: 'another').matches?(deprecation(called_in_engine: 'example'))
+  end
+
+  def test_matches_outside_engine
+    refute entry(engine: 'another').matches?(deprecation(called_in_engine: 'example'))
+  end
+
   private
 
   def default_deprecation
@@ -111,12 +123,18 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
   end
 
   def deprecation(overrides = {})
-    default_deprecation.merge(overrides).compact
+    deprecation = default_deprecation
+    if (engine = overrides.delete(:called_in_engine))
+      deprecation[:callstack] << "/home/user/engines/#{engine}/app/middleware/foo.rb:12:in `call'"
+    end
+    deprecation.merge(overrides).compact
   end
 
   def entry(overrides = {})
     entry_hash = default_deprecation.merge(overrides).compact
     entry_hash[:callstack].map! { |line| line.sub(Rails.root.to_s + '/', '') } if entry_hash[:callstack].is_a?(Array)
+
+    ASDeprecationTracker::WhitelistEntry.any_instance.expects(:engine_root).with(overrides[:engine]).returns("/home/user/engines/#{overrides[:engine]}") if overrides.key?(:engine)
     ASDeprecationTracker::WhitelistEntry.new(entry_hash)
   end
 end
