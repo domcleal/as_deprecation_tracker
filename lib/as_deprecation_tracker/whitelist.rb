@@ -12,7 +12,7 @@ module ASDeprecationTracker
     end
 
     def add_to_list(entries)
-      entries.each { |entry| @list << WhitelistEntry.new(entry) }
+      entries.each { |entry| @list << WhitelistEntry.new(entry.symbolize_keys) }
     end
 
     def clear

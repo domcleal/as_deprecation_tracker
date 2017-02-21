@@ -7,13 +7,10 @@ module ASDeprecationTracker
     MESSAGE_CLEANUP_RE = Regexp.new('\ADEPRECATION WARNING: (.+) \(called from.*')
     CALLSTACK_FILE_RE = Regexp.new('\A(.*?)(?::(\d+))?(?::in `(.+)\')?\z')
 
-    def initialize(entry)
-      entry = entry.with_indifferent_access
-      validate_keys! entry
-
-      @callstack = callstack_to_files_lines(Array.wrap(entry[:callstack]))
-      @engine_root = entry[:engine].present? ? engine_root(entry[:engine]) : nil
-      @message = entry[:message]
+    def initialize(callstack: [], engine: nil, message: nil)
+      @callstack = callstack_to_files_lines(Array.wrap(callstack))
+      @engine_root = engine.present? ? engine_root(engine) : nil
+      @message = message
     end
 
     # rubocop:disable Metrics/CyclomaticComplexity
@@ -69,12 +66,6 @@ module ASDeprecationTracker
 
     def engine_root_matches?(callstack)
       callstack.any? { |callstack_entry| callstack_entry.start_with?(@engine_root) }
-    end
-
-    def validate_keys!(entry)
-      raise("Missing #{KNOWN_KEYS.join(', ')} from whitelist entry") unless KNOWN_KEYS.any? { |key| entry.key?(key) }
-      unknown_keys = entry.keys - KNOWN_KEYS
-      raise("Unknown configuration key(s) #{unknown_keys.join(', ')}") unless unknown_keys.empty?
     end
 
     def engine_root(engine_name)

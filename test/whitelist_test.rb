@@ -12,6 +12,11 @@ class WhitelistTest < ASDeprecationTracker::TestCase
     assert_equal 1, @whitelist.list.count
   end
 
+  def test_add_to_list_string_keys
+    @whitelist.add_to_list([entry.stringify_keys])
+    assert_equal 1, @whitelist.list.count
+  end
+
   def test_clear
     @whitelist.add_to_list([entry])
     @whitelist.clear

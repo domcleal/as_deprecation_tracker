@@ -2,20 +2,8 @@
 require 'test_helper'
 
 class WhitelistEntryTest < ASDeprecationTracker::TestCase
-  def test_initialize_with_strings
-    ASDeprecationTracker::WhitelistEntry.new('message' => 'test')
-  end
-
-  def test_initialize_with_symbols
+  def test_initialize
     ASDeprecationTracker::WhitelistEntry.new(message: 'test')
-  end
-
-  def test_initialize_with_empty_hash
-    assert_raises(RuntimeError) { ASDeprecationTracker::WhitelistEntry.new({}) }
-  end
-
-  def test_initialize_with_unknown_keys
-    assert_raises(RuntimeError) { ASDeprecationTracker::WhitelistEntry.new(unknown: 'test') }
   end
 
   def test_matches_message_and_callstack
