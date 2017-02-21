@@ -11,5 +11,5 @@ group :test do
   gem 'minitest', '~> 5.0', require: false
   gem 'mocha', '~> 1.1', require: false
   gem 'rake'
-  gem 'rubocop', '~> 0.45.0', require: false
+  gem 'rubocop', '~> 0.47.1', require: false
 end

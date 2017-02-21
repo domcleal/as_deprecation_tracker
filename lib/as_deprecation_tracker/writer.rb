@@ -8,7 +8,7 @@ module ASDeprecationTracker
     def initialize(filename)
       @filename = filename
       @contents = []
-      @contents = YAML.load(File.read(filename)) || [] if File.exist?(filename)
+      @contents = YAML.safe_load(File.read(filename), [Symbol]) || [] if File.exist?(filename)
     end
 
     def add(message, callstack)
