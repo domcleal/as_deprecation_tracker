@@ -118,4 +118,4 @@ Supported options:
 
 ## License
 
-Copyright (c) 2016 Dominic Cleal.  Distributed under the MIT license.
+Copyright (c) 2016-2017 Dominic Cleal.  Distributed under the MIT license.
