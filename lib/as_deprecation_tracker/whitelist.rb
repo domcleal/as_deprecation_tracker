@@ -11,9 +11,10 @@ module ASDeprecationTracker
       @list = []
     end
 
-    def add_to_list(entries)
-      entries.each { |entry| @list << WhitelistEntry.new(entry.symbolize_keys) }
+    def add_to_list(*entries)
+      entries.flatten.each { |entry| @list << WhitelistEntry.new(entry.symbolize_keys) }
     end
+    alias_method :add, :add_to_list
 
     def clear
       @list.clear

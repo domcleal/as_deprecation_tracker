@@ -91,6 +91,10 @@ to match the caller without needing line numbers.
 Additional whitelist files may be placed below the root of each Rails engine
 and will be loaded at startup in addition to the main Rails root config file.
 
+Entries can be added programmatically by calling
+`ASDeprecationTracker.whitelist.add(message: ...)` with any of the supported
+keys above supplied as keyword arguments.
+
 ### Configuration
 
 Use an initializer to change ASDT's behaviour at startup:

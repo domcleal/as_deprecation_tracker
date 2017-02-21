@@ -7,6 +7,11 @@ class WhitelistTest < ASDeprecationTracker::TestCase
     super
   end
 
+  def test_add
+    @whitelist.add(entry)
+    assert_equal 1, @whitelist.list.count
+  end
+
   def test_add_to_list
     @whitelist.add_to_list([entry])
     assert_equal 1, @whitelist.list.count
