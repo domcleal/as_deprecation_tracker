@@ -86,15 +86,15 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
   end
 
   def test_matches_only_engine
-    assert entry(engine: 'example').matches?(deprecation(called_in_engine: 'example'))
+    assert entry(message: nil, callstack: nil, engine: 'example').matches?(deprecation(called_in_engine: 'example'))
   end
 
   def test_matches_different_engine
-    refute entry(engine: 'another').matches?(deprecation(called_in_engine: 'example'))
+    refute entry(message: nil, callstack: nil, engine: 'another').matches?(deprecation(called_in_engine: 'example'))
   end
 
   def test_matches_outside_engine
-    refute entry(engine: 'another').matches?(deprecation(called_in_engine: 'example'))
+    refute entry(message: nil, callstack: nil, engine: 'another').matches?(deprecation(called_in_engine: 'example'))
   end
 
   private
@@ -111,11 +111,12 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
   end
 
   def deprecation(overrides = {})
-    deprecation = default_deprecation
+    deprecation = default_deprecation.merge(overrides)
     if (engine = overrides.delete(:called_in_engine))
+      deprecation[:callstack] ||= []
       deprecation[:callstack] << "/home/user/engines/#{engine}/app/middleware/foo.rb:12:in `call'"
     end
-    deprecation.merge(overrides).compact
+    deprecation.compact
   end
 
   def entry(overrides = {})
