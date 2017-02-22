@@ -4,8 +4,9 @@ require 'test_helper'
 class WriterTest < ASDeprecationTracker::TestCase
   def test_add
     writer = new_writer
-    writer.add('deprecated call', ['app/models/a.rb:23', 'app/models/b.rb:42'])
-    assert_equal [{ 'message' => 'deprecated call', 'callstack' => 'app/models/a.rb:23' }], YAML.safe_load(writer.contents)
+    ret = writer.add('deprecated call', ['app/models/a.rb:23', 'app/models/b.rb:42'])
+    assert_equal({ 'message' => 'deprecated call', 'callstack' => 'app/models/a.rb:23' }, ret)
+    assert_equal [ret], YAML.safe_load(writer.contents)
   end
 
   def test_add_strips_surrounding

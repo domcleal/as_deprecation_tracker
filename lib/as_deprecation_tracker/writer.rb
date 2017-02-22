@@ -17,7 +17,9 @@ module ASDeprecationTracker
 
       callstack = Rails::BacktraceCleaner.new.clean(callstack, :silent)
 
-      @contents << { 'message' => message, 'callstack' => callstack.first }
+      entry = { 'message' => message, 'callstack' => callstack.first }
+      @contents << entry
+      entry
     end
 
     def contents

@@ -21,8 +21,9 @@ module ASDeprecationTracker
 
     def write_deprecation(message, callstack)
       writer = ASDeprecationTracker::Writer.new(whitelist_file)
-      writer.add(message, callstack)
+      entry = writer.add(message, callstack)
       writer.write_file
+      ASDeprecationTracker.whitelist.add(entry.symbolize_keys)
     end
 
     def whitelist_file
