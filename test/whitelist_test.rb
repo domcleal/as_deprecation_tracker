@@ -34,6 +34,12 @@ class WhitelistTest < ASDeprecationTracker::TestCase
     assert_equal 1, @whitelist.list.count
   end
 
+  def test_load_file_empty
+    File.expects(:read).with('root/config/as_deprecation_whitelist.yaml').returns('---')
+    @whitelist.load_file('root/config/as_deprecation_whitelist.yaml')
+    assert_equal 0, @whitelist.list.count
+  end
+
   def test_matches_failure
     @whitelist.add_to_list([entry])
     deprecation = mock('deprecation')

@@ -21,7 +21,7 @@ module ASDeprecationTracker
     end
 
     def load_file(path)
-      add_to_list(YAML.safe_load(File.read(path), [Symbol]))
+      add_to_list(YAML.safe_load(File.read(path), [Symbol]) || [])
     end
 
     def matches?(deprecation)
