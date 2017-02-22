@@ -38,6 +38,16 @@ class WriterTest < ASDeprecationTracker::TestCase
     ], YAML.safe_load(writer.contents)
   end
 
+  def test_contents_sorting_existing_message_without_callstack
+    existing = [{ 'message' => 'deprecated call 1' }]
+    writer = new_writer(existing.to_yaml)
+    writer.add('deprecated call 1', ['app/models/a.rb:23', 'app/models/b.rb:42'])
+    assert_equal [
+      { 'message' => 'deprecated call 1' },
+      { 'message' => 'deprecated call 1', 'callstack' => 'app/models/a.rb:23' }
+    ], YAML.safe_load(writer.contents)
+  end
+
   def test_write_file
     writer = new_writer
     writer.expects(:contents).returns('--- []')

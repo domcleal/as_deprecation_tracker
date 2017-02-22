@@ -23,7 +23,7 @@ module ASDeprecationTracker
     end
 
     def contents
-      @contents.sort_by { |e| e.values_at('message', 'callstack') }.to_yaml
+      @contents.sort_by { |e| e.values_at('message', 'callstack').compact }.to_yaml
     end
 
     def write_file
