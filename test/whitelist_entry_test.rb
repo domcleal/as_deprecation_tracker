@@ -93,6 +93,10 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
     assert entry(message: nil, callstack: nil, engine: 'example').matches?(deprecation(called_in_engine: 'example'))
   end
 
+  def test_matches_only_engine_backtrace_location
+    assert entry(message: nil, callstack: nil, engine: 'example').matches?(deprecation(called_in_engine: 'example', callstack: caller_locations))
+  end
+
   def test_matches_different_engine
     refute entry(message: nil, callstack: nil, engine: 'another').matches?(deprecation(called_in_engine: 'example'))
   end

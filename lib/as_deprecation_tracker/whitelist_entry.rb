@@ -45,7 +45,8 @@ module ASDeprecationTracker
     end
 
     def callstack_matches?(callstack)
-      callstack = Rails::BacktraceCleaner.new.clean(callstack, :silent)
+      # Call #to_s to replace Thread::Backtrace::Location instances
+      callstack = Rails::BacktraceCleaner.new.clean(callstack.map(&:to_s), :silent)
       callstack = callstack_to_files_lines(callstack)
 
       @callstack.all? do |whitelist_entry|
@@ -72,7 +73,7 @@ module ASDeprecationTracker
     end
 
     def engine_root_matches?(callstack)
-      callstack.any? { |callstack_entry| callstack_entry.start_with?(@engine_root) }
+      callstack.any? { |callstack_entry| callstack_entry.to_s.start_with?(@engine_root) }
     end
 
     def engine_root(engine_name)
