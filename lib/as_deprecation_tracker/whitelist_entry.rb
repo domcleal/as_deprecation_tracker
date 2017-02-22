@@ -11,7 +11,6 @@ module ASDeprecationTracker
       @callstack = callstack_to_files_lines(Array.wrap(callstack))
       @engine_root = engine.present? ? engine_root(engine) : nil
       @message = message
-      @message_lines = message.lines.map(&:chomp) if message
     end
 
     # rubocop:disable Metrics/CyclomaticComplexity
@@ -26,10 +25,7 @@ module ASDeprecationTracker
     private
 
     def message_matches?(message)
-      message = clean_message(message)
-      return true if message == @message
-      return true if message.lines[0, @message_lines.length].map(&:chomp) == @message_lines
-      false
+      clean_message(message).start_with?(@message)
     end
 
     def clean_message(message)

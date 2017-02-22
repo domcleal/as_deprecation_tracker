@@ -19,6 +19,10 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
   end
 
   def test_matches_partial_message
+    assert entry(callstack: nil, message: "a\nb").matches?(deprecation(message: "a\nb c"))
+  end
+
+  def test_matches_partial_message_lines
     assert entry(callstack: nil, message: "a\nb").matches?(deprecation(message: "a\nb\nc"))
   end
 
