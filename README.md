@@ -88,6 +88,10 @@ number may vary by up to ten lines from the recorded number by default (see
 `line_tolerance` to tune). Usually the filename and method name are sufficient
 to match the caller without needing line numbers.
 
+The message is an exact string match, but if it's a multi-line message then not
+all lines need to be specified. Only the first lines given will be compared
+against the deprecation message.
+
 Additional whitelist files may be placed below the root of each Rails engine
 and will be loaded at startup in addition to the main Rails root config file.
 
