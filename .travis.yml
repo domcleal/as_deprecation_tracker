@@ -6,11 +6,20 @@ rvm:
 - '2.1.10'
 - '2.2.5'
 - '2.3.1'
+- '2.4.0'
 
 env:
 - RAILS_VERSION=4.2.0
+- RAILS_VERSION=git:4-2-stable
+- RAILS_VERSION=5.0.0
+- RAILS_VERSION=git:5-0-stable
+- RAILS_VERSION=git:master
 
 matrix:
   exclude:
     - env: RAILS_VERSION=5.0.0
+      rvm: '2.1.10'
+    - env: RAILS_VERSION=git:5-0-stable
+      rvm: '2.1.10'
+    - env: RAILS_VERSION=git:master
       rvm: '2.1.10'

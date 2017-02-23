@@ -1,7 +1,15 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
 
-rails_version = ENV.key?('RAILS_VERSION') ? "~> #{ENV['RAILS_VERSION']}" : '>= 4.2'
+rails_version = if ENV.key?('RAILS_VERSION')
+                  if ENV['RAILS_VERSION'].start_with?('git:')
+                    { github: 'rails/rails', branch: ENV['RAILS_VERSION'].sub('git:', '') }
+                  else
+                    "~> #{ENV['RAILS_VERSION']}"
+                  end
+                else
+                  '>= 4.2'
+                end
 
 gem 'activesupport', rails_version
 gem 'railties', rails_version
