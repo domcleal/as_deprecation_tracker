@@ -1,3 +1,6 @@
+AllCops:
+  TargetRubyVersion: 2.0
+
 Metrics/LineLength:
   Enabled: false
 
@@ -8,3 +11,7 @@ Metrics/AbcSize:
 Metrics/ClassLength:
   Exclude:
     - 'test/**/*'
+
+# Incompatible with Psych in Ruby 2.0.0
+Security/YAMLLoad:
+  Enabled: false

@@ -12,6 +12,7 @@ rails_version = if ENV.key?('RAILS_VERSION')
                 end
 
 gem 'activesupport', rails_version
+gem 'nokogiri', '< 1.7' if RUBY_VERSION.start_with?('2.0.0')
 gem 'railties', rails_version
 
 group :test do
