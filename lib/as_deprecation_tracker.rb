@@ -14,6 +14,23 @@ module ASDeprecationTracker
     @config ||= Configuration.new
   end
 
+  def self.pause!
+    @running = false
+  end
+
+  def self.receiver
+    @receiver ||= Receiver.new
+  end
+
+  def self.resume!
+    @running = true
+    @receiver.try!(:process_queue)
+  end
+
+  def self.running?
+    @running.nil? || @running
+  end
+
   def self.whitelist
     @whitelist ||= Whitelist.new
   end

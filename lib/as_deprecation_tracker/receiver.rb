@@ -5,7 +5,21 @@ require 'as_deprecation_tracker/writer'
 module ASDeprecationTracker
   # Receives deprecation.rails events via ActiveSupport::Notifications
   class Receiver < ::ActiveSupport::Subscriber
+    def initialize
+      super
+      @event_queue = []
+    end
+
     def deprecation(event)
+      @event_queue << event
+      process_queue if ASDeprecationTracker.running?
+    end
+
+    def process_queue
+      process_event(@event_queue.pop) until @event_queue.empty?
+    end
+
+    def process_event(event)
       return if ASDeprecationTracker.whitelist.matches?(event.payload)
 
       message = event.payload[:message]

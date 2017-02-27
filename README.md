@@ -119,6 +119,16 @@ Supported options:
 * `whitelist_file` to customise the location of the whitelist YAML file
   (defaults to `config/as_deprecation_whitelist.yaml`)
 
+### Pause/resume
+
+The processing of deprecation warnings can be suspended and resumed via the
+`ASDeprecationTracker.pause!` and `ASDeprecationTracker.resume!` methods.
+
+This is useful when programmatically building whitelist entries during Rails
+initialisation, as deprecation processing can be disabled until the whitelist
+is fully formed. ASDT will queue events while paused and processes them when
+`resume!` is called.
+
 ## License
 
 Copyright (c) 2016-2017 Dominic Cleal.  Distributed under the MIT license.
