@@ -75,7 +75,7 @@ module ASDeprecationTracker
     def engine_root(engine_name)
       ::Rails::Engine.descendants.each do |engine|
         begin
-          return engine.root.to_s if engine_name == engine.engine_name
+          return engine.root.to_s if engine_name.to_s == engine.engine_name.to_s
         rescue NoMethodError, RuntimeError # rubocop:disable Lint/HandleExceptions
           # Ignore failures with singleton engine subclasses etc.
         end
