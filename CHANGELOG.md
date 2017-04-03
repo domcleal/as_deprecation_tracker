@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.5.0
+
+### Added
+- Add `AS_DEPRECATION_DISABLE` environment variable to fully disable ASDT.
+- Support shorter `ASDT_` prefix for all environment variables.
+
 ## 1.4.1
 
 ### Fixed
