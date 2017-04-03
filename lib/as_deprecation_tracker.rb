@@ -15,7 +15,7 @@ module ASDeprecationTracker
   end
 
   def self.pause!
-    @running = false
+    @paused = true
   end
 
   def self.receiver
@@ -23,12 +23,12 @@ module ASDeprecationTracker
   end
 
   def self.resume!
-    @running = true
+    @paused = false
     @receiver.try!(:process_queue)
   end
 
   def self.running?
-    @running.nil? || @running
+    ENV['AS_DEPRECATION_DISABLE'].nil? && !@paused
   end
 
   def self.whitelist

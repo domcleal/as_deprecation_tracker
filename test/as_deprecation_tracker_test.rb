@@ -49,6 +49,12 @@ class ASDeprecationTrackerTest < ASDeprecationTracker::TestCase
     assert_equal true, ASDeprecationTracker.running?
   end
 
+  def test_running_with_disable_true
+    with_env(AS_DEPRECATION_DISABLE: 'true') do
+      assert_equal false, ASDeprecationTracker.running?
+    end
+  end
+
   def test_whitelist
     assert_kind_of ASDeprecationTracker::Whitelist, ASDeprecationTracker.whitelist
   end

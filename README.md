@@ -119,6 +119,17 @@ Supported options:
 * `whitelist_file` to customise the location of the whitelist YAML file
   (defaults to `config/as_deprecation_whitelist.yaml`)
 
+### Environment variables
+
+* `AS_DEPRECATION_DISABLE` - set to any value will prevent ASDT from monitoring
+  deprecations and throwing exceptions. Rails will use default deprecation
+  behaviour.
+* `AS_DEPRECATION_RECORD` - set to any value will prevent ASDT from throwing
+  exceptions and will append entries to the `whitelist_file` for every
+  deprecation seen.
+* `AS_DEPRECATION_WHITELIST` - set to the root or full path of a whitelist
+  configuration file, overrides `whitelist_file`.
+
 ### Pause/resume
 
 The processing of deprecation warnings can be suspended and resumed via the
