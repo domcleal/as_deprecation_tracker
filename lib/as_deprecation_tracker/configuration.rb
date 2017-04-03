@@ -8,7 +8,7 @@ module ASDeprecationTracker
     def initialize
       @envs = %w(test)
       @line_tolerance = 10
-      @register_behavior = ENV['AS_DEPRECATION_DISABLE'].nil?
+      @register_behavior = ASDeprecationTracker.env('DISABLE').nil?
       @whitelist_file = File.join('config', 'as_deprecation_whitelist.yaml')
     end
   end

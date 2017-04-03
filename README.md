@@ -121,6 +121,9 @@ Supported options:
 
 ### Environment variables
 
+Both `AS_DEPRECATION_` or the shorter `ASDT_` prefixes work with all
+environment variables listed below.
+
 * `AS_DEPRECATION_DISABLE` - set to any value will prevent ASDT from monitoring
   deprecations and throwing exceptions. Rails will use default deprecation
   behaviour.

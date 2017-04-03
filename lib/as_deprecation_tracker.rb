@@ -28,10 +28,14 @@ module ASDeprecationTracker
   end
 
   def self.running?
-    ENV['AS_DEPRECATION_DISABLE'].nil? && !@paused
+    env('DISABLE').nil? && !@paused
   end
 
   def self.whitelist
     @whitelist ||= Whitelist.new
+  end
+
+  def self.env(name)
+    ENV.fetch("AS_DEPRECATION_#{name}", ENV["ASDT_#{name}"])
   end
 end

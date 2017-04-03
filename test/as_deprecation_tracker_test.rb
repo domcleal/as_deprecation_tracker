@@ -21,6 +21,18 @@ class ASDeprecationTrackerTest < ASDeprecationTracker::TestCase
     assert_equal config, ASDeprecationTracker.config
   end
 
+  def test_env_as_deprecation
+    with_env(AS_DEPRECATION_TEST: 'test') do
+      assert_equal 'test', ASDeprecationTracker.env('TEST')
+    end
+  end
+
+  def test_env_asdt
+    with_env(ASDT_TEST: 'test') do
+      assert_equal 'test', ASDeprecationTracker.env('TEST')
+    end
+  end
+
   def test_pause!
     ASDeprecationTracker.pause!
     refute ASDeprecationTracker.running?

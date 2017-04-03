@@ -24,7 +24,7 @@ module ASDeprecationTracker
 
       message = event.payload[:message]
       callstack = event.payload[:callstack].map(&:to_s)
-      if ENV['AS_DEPRECATION_RECORD'].present?
+      if ASDeprecationTracker.env('RECORD').present?
         write_deprecation(message, callstack)
       else
         raise_deprecation(message, callstack)
@@ -41,8 +41,8 @@ module ASDeprecationTracker
     end
 
     def whitelist_file
-      root = if ENV['AS_DEPRECATION_WHITELIST'].present?
-               File.expand_path(ENV['AS_DEPRECATION_WHITELIST'])
+      root = if ASDeprecationTracker.env('WHITELIST').present?
+               File.expand_path(ASDeprecationTracker.env('WHITELIST'))
              else
                Rails.root
              end
