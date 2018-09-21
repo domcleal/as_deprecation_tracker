@@ -143,6 +143,15 @@ initialisation, as deprecation processing can be disabled until the whitelist
 is fully formed. ASDT will queue events while paused and processes them when
 `resume!` is called.
 
+## Alternatives
+
+Shopify have open-sourced a gem that works very similarly to ASDT and is worth
+a look. It supports more configuration options when seeing a new or removed
+deprecation warning, and also supports `Kernel#warn`.
+
+* [Shopify: Introducing the deprecation toolkit](https://engineering.shopify.com/blogs/engineering/introducing-the-deprecation-toolkit)
+* [deprecation_toolkit (GitHub)](https://github.com/shopify/deprecation_toolkit)
+
 ## License
 
 Copyright (c) 2016-2017 Dominic Cleal.  Distributed under the MIT license.
