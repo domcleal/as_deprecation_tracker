@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require File.expand_path('../lib/as_deprecation_tracker/version', __FILE__)
+
+require File.expand_path('lib/as_deprecation_tracker/version', __dir__)
 
 Gem::Specification.new do |s|
   s.name = 'as_deprecation_tracker'
@@ -19,4 +20,5 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0.0'
   s.add_dependency 'activesupport', '>= 4.2'
   s.add_dependency 'railties', '>= 4.2'
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

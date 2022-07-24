@@ -1,7 +1,8 @@
 AllCops:
   TargetRubyVersion: 2.0
+  NewCops: enable
 
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
 
 Metrics/AbcSize:

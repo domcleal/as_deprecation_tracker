@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'as_deprecation_tracker/receiver'
 
 module ASDeprecationTracker

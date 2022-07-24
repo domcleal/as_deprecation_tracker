@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class WhitelistEntryTest < ASDeprecationTracker::TestCase
@@ -133,7 +134,7 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
 
   def entry(overrides = {})
     entry_hash = default_deprecation.merge(overrides).compact
-    entry_hash[:callstack].map! { |line| line.sub(Rails.root.to_s + '/', '') } if entry_hash[:callstack].is_a?(Array)
+    entry_hash[:callstack].map! { |line| line.sub("#{Rails.root}/", '') } if entry_hash[:callstack].is_a?(Array)
 
     ASDeprecationTracker::WhitelistEntry.any_instance.expects(:engine_root).with(overrides[:engine]).returns("/home/user/engines/#{overrides[:engine]}") if overrides.key?(:engine)
     ASDeprecationTracker::WhitelistEntry.new(**entry_hash)
