@@ -154,4 +154,4 @@ deprecation warning, and also supports `Kernel#warn`.
 
 ## License
 
-Copyright (c) 2016-2017 Dominic Cleal.  Distributed under the MIT license.
+Copyright (c) 2016-2022 Dominic Cleal.  Distributed under the MIT license.
