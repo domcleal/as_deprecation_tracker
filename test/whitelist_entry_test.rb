@@ -136,6 +136,6 @@ class WhitelistEntryTest < ASDeprecationTracker::TestCase
     entry_hash[:callstack].map! { |line| line.sub(Rails.root.to_s + '/', '') } if entry_hash[:callstack].is_a?(Array)
 
     ASDeprecationTracker::WhitelistEntry.any_instance.expects(:engine_root).with(overrides[:engine]).returns("/home/user/engines/#{overrides[:engine]}") if overrides.key?(:engine)
-    ASDeprecationTracker::WhitelistEntry.new(entry_hash)
+    ASDeprecationTracker::WhitelistEntry.new(**entry_hash)
   end
 end

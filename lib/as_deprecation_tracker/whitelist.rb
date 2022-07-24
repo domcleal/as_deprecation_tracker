@@ -12,7 +12,7 @@ module ASDeprecationTracker
     end
 
     def add_to_list(*entries)
-      entries.flatten.each { |entry| @list << WhitelistEntry.new(entry.symbolize_keys) }
+      entries.flatten.each { |entry| @list << WhitelistEntry.new(**entry.symbolize_keys) }
     end
     alias add add_to_list
 
