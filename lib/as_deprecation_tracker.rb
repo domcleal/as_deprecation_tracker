@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Entry point, provides constant with access to global configuration only
 module ASDeprecationTracker
   require 'as_deprecation_tracker/configuration'
@@ -36,6 +37,6 @@ module ASDeprecationTracker
   end
 
   def self.env(name)
-    ENV.fetch("AS_DEPRECATION_#{name}", ENV["ASDT_#{name}"])
+    ENV.fetch("AS_DEPRECATION_#{name}", ENV.fetch("ASDT_#{name}", nil))
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'minitest/autorun'
 require 'mocha/minitest'
 require 'combustion'
@@ -17,7 +18,7 @@ module ASDeprecationTracker
         ENV.update(new_env)
         yield
       ensure
-        new_env.keys.each { |k| ENV.delete(k) }
+        new_env.each_key { |k| ENV.delete(k) }
         ENV.update(backup)
       end
     end

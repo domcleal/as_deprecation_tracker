@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'active_support/subscriber'
 require 'as_deprecation_tracker/writer'
 

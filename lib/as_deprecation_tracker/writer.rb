@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'as_deprecation_tracker/whitelist_entry'
 require 'rails/backtrace_cleaner'
 

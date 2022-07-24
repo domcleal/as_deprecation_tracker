@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ASDeprecationTracker
   # Maintains configuration for one instance (usually global)
   class Configuration
@@ -6,7 +7,7 @@ module ASDeprecationTracker
     alias register_behavior? register_behavior
 
     def initialize
-      @envs = %w(test)
+      @envs = %w[test]
       @line_tolerance = 10
       @register_behavior = ASDeprecationTracker.env('DISABLE').nil?
       @whitelist_file = File.join('config', 'as_deprecation_whitelist.yaml')

@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 module ASDeprecationTracker
   # Configuration of a whitelisted (known) deprecation warning matched by data
   # such as a message and/or callstack
   class WhitelistEntry
-    KNOWN_KEYS = %w(callstack engine message).freeze
+    KNOWN_KEYS = %w[callstack engine message].freeze
     MESSAGE_CLEANUP_RE = Regexp.new('\ADEPRECATION WARNING: (.+) \(called from.*')
     CALLSTACK_FILE_RE = Regexp.new('\A(.*?)(?::(\d+))?(?::in `(.+)\')?\z')
 
@@ -13,14 +14,13 @@ module ASDeprecationTracker
       @message = message
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity
     def matches?(deprecation)
       return false if @message.present? && !message_matches?(deprecation[:message])
       return false if @callstack.present? && !callstack_matches?(deprecation[:callstack])
       return false if @engine_root.present? && !engine_root_matches?(deprecation[:callstack])
+
       true
     end
-    # rubocop:enable Metrics/CyclomaticComplexity
 
     private
 
@@ -60,11 +60,13 @@ module ASDeprecationTracker
 
     def line_number_within_tolerance(line1, line2)
       return true if line1.nil? || line2.nil?
+
       (line1 - line2).abs <= ASDeprecationTracker.config.line_tolerance
     end
 
     def method_name_matches(method1, method2)
       return true if method1.nil? || method2.nil?
+
       method1 == method2
     end
 
@@ -76,7 +78,7 @@ module ASDeprecationTracker
       ::Rails::Engine.descendants.each do |engine|
         begin
           return engine.root.to_s if engine_name.to_s == engine.engine_name.to_s
-        rescue NoMethodError, RuntimeError # rubocop:disable Lint/HandleExceptions
+        rescue NoMethodError, RuntimeError
           # Ignore failures with singleton engine subclasses etc.
         end
       end
