@@ -7,7 +7,16 @@ module ASDeprecationTracker
   class Railtie < ::Rails::Railtie
     initializer 'as_deprecation_tracker.deprecation_notifications', after: :load_environment_config, if: -> { ASDeprecationTracker.active? } do
       Receiver.attach_to :rails, ASDeprecationTracker.receiver
-      ActiveSupport::Deprecation.behavior = :notify if ASDeprecationTracker.config.register_behavior?
+
+      if ASDeprecationTracker.config.register_behavior?
+        # Rails >= 7.1 deprecates ActiveSupport::Deprecation.behavior= in favor of the
+        # per-application deprecators registry; older Rails versions don't have it.
+        if Rails.application.respond_to?(:deprecators)
+          Rails.application.deprecators.behavior = :notify
+        else
+          ActiveSupport::Deprecation.behavior = :notify
+        end
+      end
 
       whitelist = ASDeprecationTracker.config.whitelist_file
       ([Rails.root] + engine_roots).each do |root|
