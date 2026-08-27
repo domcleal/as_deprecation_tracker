@@ -23,7 +23,7 @@ class ReceiverTest < ASDeprecationTracker::TestCase
     whitelist = ASDeprecationTracker::Whitelist.new
     ASDeprecationTracker.expects(:whitelist).returns(whitelist)
     stack = caller
-    whitelist.expects(:matches?).with(message: 'deprecated call', callstack: stack).returns(true)
+    whitelist.expects(:matches?).with({ message: 'deprecated call', callstack: stack }).returns(true)
     ASDeprecationTracker::Receiver.new.process_event(event(message: 'deprecated call', callstack: stack))
   end
 
@@ -31,7 +31,7 @@ class ReceiverTest < ASDeprecationTracker::TestCase
     whitelist = ASDeprecationTracker::Whitelist.new
     ASDeprecationTracker.expects(:whitelist).returns(whitelist)
     stack = caller
-    whitelist.expects(:matches?).with(message: 'deprecated call', callstack: stack).returns(false)
+    whitelist.expects(:matches?).with({ message: 'deprecated call', callstack: stack }).returns(false)
     e = assert_raises(ActiveSupport::DeprecationException) do
       ASDeprecationTracker::Receiver.new.process_event(event(message: 'deprecated call', callstack: stack))
     end
@@ -43,7 +43,7 @@ class ReceiverTest < ASDeprecationTracker::TestCase
     whitelist = ASDeprecationTracker::Whitelist.new
     ASDeprecationTracker.expects(:whitelist).twice.returns(whitelist)
     stack = caller
-    whitelist.expects(:matches?).with(message: 'deprecated call', callstack: stack).returns(false)
+    whitelist.expects(:matches?).with({ message: 'deprecated call', callstack: stack }).returns(false)
     whitelist.expects(:add).with(message: 'deprecated call', callstack: stack.first)
     ASDeprecationTracker::Writer.any_instance.expects(:add).with('deprecated call', stack).returns(message: 'deprecated call', callstack: stack.first)
     ASDeprecationTracker::Writer.any_instance.expects(:write_file)
