@@ -1,3 +1,13 @@
+# This gem is deprecated
+
+This gem is no longer maintained and users should consider migrating to
+`deprecation_toolkit` instead, which is more likely to work with newer Ruby and
+Rails versions.
+
+* [Shopify: Introducing the deprecation toolkit](https://engineering.shopify.com/blogs/engineering/introducing-the-deprecation-toolkit)
+* [deprecation_toolkit (GitHub)](https://github.com/shopify/deprecation_toolkit)
+* [deprecation_toolkit (RubyGems)](https://rubygems.org/gems/deprecation_toolkit)
+
 # as_deprecation_tracker
 
 Tracks known ActiveSupport (Rails) deprecation warnings and catches new issues
